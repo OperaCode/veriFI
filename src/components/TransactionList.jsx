@@ -10,6 +10,16 @@ const TransactionList = ({ address }) => {
   const { transactions, loading } = useFetchTransactions(address);
   const [ensMap, setEnsMap] = useState({});
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const perPage = 10;
+
+  const totalPages = Math.ceil((transactions?.length || 0) / perPage);
+
+  const paginatedTxs = transactions?.slice(
+    (currentPage - 1) * perPage,
+    currentPage * perPage
+  );
+
   useEffect(() => {
     const resolveENS = async () => {
       const newEnsMap = {};
@@ -37,6 +47,14 @@ const TransactionList = ({ address }) => {
     transition: { duration: 0.6 }
   };
 
+  const handlePrev = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+
+  const handleNext = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
+
   return (
     <motion.div
       {...fadeInUp}
@@ -45,6 +63,7 @@ const TransactionList = ({ address }) => {
       <h2 className="text-xl font-semibold text-gray-200 mb-4">
         Incoming Transactions
       </h2>
+
       {loading ? (
         <div className="flex justify-center items-center py-8">
           <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-blue-400"></div>
@@ -55,33 +74,56 @@ const TransactionList = ({ address }) => {
           No incoming transactions found for this address.
         </p>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-gray-300">
-            <thead>
-              <tr className="border-b border-blue-800/50">
-                <th className="py-3 px-4 font-semibold text-blue-400">From</th>
-                <th className="py-3 px-4 font-semibold text-blue-400">Amount (ETH)</th>
-                <th className="py-3 px-4 font-semibold text-blue-400">Date</th>
-                <th className="py-3 px-4 font-semibold text-blue-400">Transaction Hash</th>
-              </tr>
-            </thead>
-            <tbody>
-              {transactions.map((tx, index) => (
-                <motion.tr
-                  key={tx.hash || index}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  className={`border-b border-blue-800/50 hover:bg-gray-800/50 transition-colors duration-200 ${
-                    index % 2 === 0 ? "bg-gray-900/30" : "bg-gray-900/10"
-                  }`}
-                >
-                  <TransactionItem tx={tx} ensName={ensMap[tx.from]} />
-                </motion.tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-gray-300">
+              <thead>
+                <tr className="border-b border-blue-800/50">
+                  <th className="py-3 px-4 font-semibold text-blue-400">From</th>
+                  <th className="py-3 px-4 font-semibold text-blue-400">Amount (ETH)</th>
+                  <th className="py-3 px-4 font-semibold text-blue-400">Date</th>
+                  <th className="py-3 px-4 font-semibold text-blue-400">Transaction Hash</th>
+                </tr>
+              </thead>
+              <tbody>
+                {paginatedTxs.map((tx, index) => (
+                  <motion.tr
+                    key={tx.hash || index}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.05 }}
+                    className={`border-b border-blue-800/50 hover:bg-gray-800/50 transition-colors duration-200 ${
+                      index % 2 === 0 ? "bg-gray-900/30" : "bg-gray-900/10"
+                    }`}
+                  >
+                    <TransactionItem tx={tx} ensName={ensMap[tx.from]} />
+                  </motion.tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Pagination Controls */}
+          <div className="flex justify-between items-center mt-4">
+            <button
+              onClick={handlePrev}
+              disabled={currentPage === 1}
+              className="px-4 py-2 bg-blue-600 rounded disabled:opacity-50"
+            >
+              Previous
+            </button>
+            <span className="text-gray-400">
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              onClick={handleNext}
+              disabled={currentPage === totalPages}
+              className="px-4 py-2 bg-blue-600 rounded disabled:opacity-50"
+            >
+              Next
+            </button>
+          </div>
+        </>
       )}
     </motion.div>
   );

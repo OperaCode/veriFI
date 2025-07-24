@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import TransactionList from "../components/TransactionList";
 import TokenTransfers from "../components/TokenTransfer";
 import { JsonRpcProvider } from "ethers";
+import { LogOut } from "lucide-react";
 
 const provider = new JsonRpcProvider(import.meta.env.VITE_RPC_URL);
 
@@ -32,28 +33,12 @@ const Home = () => {
           <nav className="space-x-6">
             <a
               href="/home"
-              className="text-gray-300 hover:text-blue-400 transition-colors"
+              className="text-gray-300 hover:text-blue-400 transition-colors font-bold flex items-center gap-1"
             >
-              Home
+                <LogOut/>
+              Exit App
             </a>
-            <a
-              href="/#features"
-              className="text-gray-300 hover:text-blue-400 transition-colors"
-            >
-              Features
-            </a>
-            <a
-              href="/#how-it-works"
-              className="text-gray-300 hover:text-blue-400 transition-colors"
-            >
-              How It Works
-            </a>
-            <a
-              href="/#faq"
-              className="text-gray-300 hover:text-blue-400 transition-colors"
-            >
-              FAQ
-            </a>
+            
           </nav>
         </div>
       </header>
@@ -81,7 +66,7 @@ const Home = () => {
             />
             <button
               type="submit"
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-6 py-3 rounded-lg text-white font-semibold shadow-lg transform hover:scale-105 transition-all duration-200"
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-6 py-3 rounded-lg text-white font-semibold shadow-lg transform hover:scale-105 transition-all duration-200 cursor-pointer"
             >
               Check
             </button>
@@ -90,10 +75,10 @@ const Home = () => {
 
         {submittedAddress && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8 }}
-            className="md:flex gap-2  "
+            // initial={{ opacity: 0 }}
+            // animate={{ opacity: 1 }}
+            // transition={{ duration: 0.8 }}
+            className="grid grid-cols-1 md:grid-cols-2 gap-2  "
           >
             {/* ETH Transactions */}
             <div className="bg-gray-900/50 p-4 rounded-lg m-auto shadow-md border border-blue-800/50">

@@ -11,25 +11,23 @@ const Landing = () => {
   return (
     <div className="font-sans min-h-screen bg-gradient-to-b from-gray-900 to-blue-950 text-white">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-gray-900/80 backdrop-blur-md py-4 px-6 shadow-lg border-b border-blue-800">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
-            VeriFI
+      <header className="sticky top-0 z-50 bg-gray-900/80 backdrop-blur-md py-4 px-4 shadow-lg border-b border-blue-800">
+        <div className="max-w-8xl mx-auto flex justify-between items-center">
+          <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500 flex items-center gap-2">
+           <span >🗞️</span> VeriFI
           </h1>
-          <nav className="space-x-6">
-            <a href="#top" className="text-gray-300 hover:text-blue-400 transition-colors">Home</a>
-            <a href="#features" className="text-gray-300 hover:text-blue-400 transition-colors">Features</a>
-            <a href="#how-it-works" className="text-gray-300 hover:text-blue-400 transition-colors">How It Works</a>
-            <a href="#faq" className="text-gray-300 hover:text-blue-400 transition-colors">FAQ</a>
+          <nav className="flex ">
+            <a href="#top" className="text-gray-300 hover:text-blue-400 transition-colors font-bold">Home</a>
+            <a href="#features" className="text-gray-300 hover:text-blue-400 transition-colors font-bold">Features</a>
+            <a href="#how-it-works" className="text-gray-300 hover:text-blue-400 transition-colors font-bold">How It Works</a>
+            <a href="#faq" className="text-gray-300 hover:text-blue-400 transition-colors font-bold">FAQ</a>
           </nav>
         </div>
       </header>
 
       {/* Hero */}
       <section id="top" className="bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 py-24 text-center relative overflow-hidden">
-        <div className="absolute inset-0 opacity-20 pointer-events-none">
-          <div className="w-full h-full bg-[url('https://www.transparenttextures.com/patterns/blockchain.png')] animate-pulse"></div>
-        </div>
+       
         <motion.div {...fadeInUp} className="max-w-4xl mx-auto relative z-10">
           <h1 className="text-5xl md:text-6xl font-extrabold mb-6 leading-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
             Track Your ETH with VeriFI

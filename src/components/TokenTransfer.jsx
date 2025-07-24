@@ -8,11 +8,14 @@ const TokenTransfers = ({ address }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  const perPage = 10;
 
   useEffect(() => {
-    const fetchTransfers = async () => {
-      if (!address) return;
+    if (!address) return;
 
+    const fetchTransfers = async () => {
       setLoading(true);
       setError("");
 
@@ -23,7 +26,7 @@ const TokenTransfers = ({ address }) => {
             action: "tokentx",
             address,
             page,
-            offset: 10,
+            offset: perPage,
             sort: "desc",
             apikey: import.meta.env.VITE_ETHERSCAN_API_KEY,
           },
@@ -32,21 +35,30 @@ const TokenTransfers = ({ address }) => {
         const data = res.data;
 
         if (data.status === "1" && Array.isArray(data.result)) {
-          setTransfers((prev) => (page === 1 ? data.result : [...prev, ...data.result]));
+          setTransfers(data.result);
+
+          // Estimate total pages if Etherscan provides a count in data.result
+          const totalCount = data.result.length < perPage && page === 1
+            ? data.result.length
+            : page * perPage + (data.result.length === perPage ? perPage : 0);
+          setTotalPages(Math.ceil(totalCount / perPage));
         } else if (
           data.status === "0" &&
           data.message === "No transactions found"
         ) {
           setTransfers([]);
+          setTotalPages(1);
         } else {
           console.error("Etherscan API error:", data.message, data.result);
           setError(`API Error: ${data.message}`);
           setTransfers([]);
+          setTotalPages(1);
         }
       } catch (err) {
         console.error("Fetch error:", err);
         setError("Failed to fetch token transfers.");
         setTransfers([]);
+        setTotalPages(1);
       }
 
       setLoading(false);
@@ -54,6 +66,11 @@ const TokenTransfers = ({ address }) => {
 
     fetchTransfers();
   }, [address, page]);
+
+  // Reset pagination when address changes
+  useEffect(() => {
+    setPage(1);
+  }, [address]);
 
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);
@@ -63,7 +80,15 @@ const TokenTransfers = ({ address }) => {
   const fadeInUp = {
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.6 }
+    transition: { duration: 0.6 },
+  };
+
+  const handlePrev = () => {
+    if (page > 1) setPage(page - 1);
+  };
+
+  const handleNext = () => {
+    if (transfers.length === perPage) setPage(page + 1);
   };
 
   return (
@@ -109,7 +134,7 @@ const TokenTransfers = ({ address }) => {
                     key={tx.hash}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
+                    transition={{ delay: index * 0.05 }}
                     className={`border-b border-blue-800/50 hover:bg-gray-800/50 transition-colors duration-200 ${
                       index % 2 === 0 ? "bg-gray-900/30" : "bg-gray-900/10"
                     }`}
@@ -132,10 +157,12 @@ const TokenTransfers = ({ address }) => {
                       {tx.to.slice(0, 6)}...{tx.to.slice(-4)}
                     </td>
                     <td className="py-3 px-4">
-                      {Number(tx.value) / 10 ** tx.tokenDecimal}
+                      {(Number(tx.value) / 10 ** tx.tokenDecimal).toFixed(4)}
                     </td>
                     <td className="py-3 px-4">
-                      {new Date(tx.timeStamp * 1000).toLocaleString()}
+                      {tx.timeStamp
+                        ? new Date(parseInt(tx.timeStamp) * 1000).toLocaleString()
+                        : "Invalid date"}
                     </td>
                     <td className="py-3 px-4">
                       <a
@@ -152,16 +179,24 @@ const TokenTransfers = ({ address }) => {
               </tbody>
             </table>
           </div>
-          {!loading && transfers.length >= 10 && (
-            <motion.button
-              onClick={() => setPage((prev) => prev + 1)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="mt-6 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-lg text-white font-semibold shadow-lg transition-all duration-200"
+          {/* Pagination Controls */}
+          <div className="flex justify-between items-center mt-4">
+            <button
+              onClick={handlePrev}
+              disabled={page === 1}
+              className="px-4 py-2 bg-blue-600 rounded disabled:opacity-50"
             >
-              Load More
-            </motion.button>
-          )}
+              Previous
+            </button>
+            <span className="text-gray-400">Page {page}</span>
+            <button
+              onClick={handleNext}
+              disabled={transfers.length < perPage}
+              className="px-4 py-2 bg-blue-600 rounded disabled:opacity-50"
+            >
+              Next
+            </button>
+          </div>
           {loading && transfers.length > 0 && (
             <div className="flex justify-center items-center py-4">
               <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-blue-400"></div>

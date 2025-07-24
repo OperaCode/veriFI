@@ -44,6 +44,7 @@ const TransactionItem = ({ tx, ensName }) => {
           {tx.hash.slice(0, 6)}...{tx.hash.slice(-4)}
         </a>
       </td>
+      
     </>
   );
 };
