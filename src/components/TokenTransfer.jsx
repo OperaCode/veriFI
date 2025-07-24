@@ -38,9 +38,10 @@ const TokenTransfers = ({ address }) => {
           setTransfers(data.result);
 
           // Estimate total pages if Etherscan provides a count in data.result
-          const totalCount = data.result.length < perPage && page === 1
-            ? data.result.length
-            : page * perPage + (data.result.length === perPage ? perPage : 0);
+          const totalCount =
+            data.result.length < perPage && page === 1
+              ? data.result.length
+              : page * perPage + (data.result.length === perPage ? perPage : 0);
           setTotalPages(Math.ceil(totalCount / perPage));
         } else if (
           data.status === "0" &&
@@ -120,12 +121,22 @@ const TokenTransfers = ({ address }) => {
             <table className="w-full text-left text-gray-300">
               <thead>
                 <tr className="border-b border-blue-800/50">
-                  <th className="py-3 px-4 font-semibold text-blue-400">Token</th>
-                  <th className="py-3 px-4 font-semibold text-blue-400">From</th>
+                  <th className="py-3 px-4 font-semibold text-blue-400">
+                    Token
+                  </th>
+                  <th className="py-3 px-4 font-semibold text-blue-400">
+                    From
+                  </th>
                   <th className="py-3 px-4 font-semibold text-blue-400">To</th>
-                  <th className="py-3 px-4 font-semibold text-blue-400">Amount</th>
-                  <th className="py-3 px-4 font-semibold text-blue-400">Date</th>
-                  <th className="py-3 px-4 font-semibold text-blue-400">Tx Hash</th>
+                  <th className="py-3 px-4 font-semibold text-blue-400">
+                    Amount
+                  </th>
+                  <th className="py-3 px-4 font-semibold text-blue-400">
+                    Date
+                  </th>
+                  <th className="py-3 px-4 font-semibold text-blue-400">
+                    Tx Hash
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -161,7 +172,9 @@ const TokenTransfers = ({ address }) => {
                     </td>
                     <td className="py-3 px-4">
                       {tx.timeStamp
-                        ? new Date(parseInt(tx.timeStamp) * 1000).toLocaleString()
+                        ? new Date(
+                            parseInt(tx.timeStamp) * 1000
+                          ).toLocaleString()
                         : "Invalid date"}
                     </td>
                     <td className="py-3 px-4">
@@ -188,7 +201,9 @@ const TokenTransfers = ({ address }) => {
             >
               Previous
             </button>
-            <span className="text-gray-400">Page {page}</span>
+            <span className="text-gray-400">
+              Page {page} of {totalPages}
+            </span>
             <button
               onClick={handleNext}
               disabled={transfers.length < perPage}
@@ -197,12 +212,30 @@ const TokenTransfers = ({ address }) => {
               Next
             </button>
           </div>
-          {loading && transfers.length > 0 && (
+
+          {/* <div className="flex justify-between items-center mt-4">
+            <button
+              onClick={handlePrev}
+              disabled={page === 1}
+              className="px-4 py-2 bg-blue-600 rounded disabled:opacity-50"
+            >
+              Previous
+            </button>
+            <span className="text-gray-400">Page {page}</span>
+            <button
+              onClick={handleNext}
+              disabled={transfers.length < perPage}
+              className="px-4 py-2 bg-blue-600 rounded disabled:opacity-50"
+            >
+              Next
+            </button>
+          </div> */}
+          {/* {loading && transfers.length > 0 && (
             <div className="flex justify-center items-center py-4">
               <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-blue-400"></div>
               <p className="ml-3 text-gray-300">Loading more transfers...</p>
             </div>
-          )}
+          )} */}
         </>
       )}
     </motion.div>
