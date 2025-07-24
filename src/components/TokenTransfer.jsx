@@ -213,29 +213,6 @@ const TokenTransfers = ({ address }) => {
             </button>
           </div>
 
-          {/* <div className="flex justify-between items-center mt-4">
-            <button
-              onClick={handlePrev}
-              disabled={page === 1}
-              className="px-4 py-2 bg-blue-600 rounded disabled:opacity-50"
-            >
-              Previous
-            </button>
-            <span className="text-gray-400">Page {page}</span>
-            <button
-              onClick={handleNext}
-              disabled={transfers.length < perPage}
-              className="px-4 py-2 bg-blue-600 rounded disabled:opacity-50"
-            >
-              Next
-            </button>
-          </div> */}
-          {/* {loading && transfers.length > 0 && (
-            <div className="flex justify-center items-center py-4">
-              <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-blue-400"></div>
-              <p className="ml-3 text-gray-300">Loading more transfers...</p>
-            </div>
-          )} */}
         </>
       )}
     </motion.div>

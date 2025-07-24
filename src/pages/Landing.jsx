@@ -1,5 +1,6 @@
 import React,{useState} from "react";
 import { motion } from "framer-motion";
+import { AlignJustify } from "lucide-react";
 
 const Landing = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,12 +13,12 @@ const Landing = () => {
 
   return (
     <div className="font-sans min-h-screen bg-gradient-to-b from-gray-900 to-blue-950 text-white">
-        
+
       {/* Header */}
       <header className="sticky top-0 z-50 bg-gray-900/80 backdrop-blur-md py-4 px-6 shadow-lg border-b border-blue-800">
         <div className="max-w-7xl mx-auto flex justify-between items-center p-4">
           <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
-            VeriFI
+            <span>🛡️</span>VeriFI
           </h1>
 
           {/* Desktop nav */}
@@ -49,33 +50,19 @@ const Landing = () => {
           </nav>
 
           {/* Mobile menu button */}
-          <div className="md:hidden">
+          <div className="md:hidden ">
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="text-gray-300 hover:text-blue-400 focus:outline-none"
             >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={2}
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d={
-                    isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"
-                  }
-                />
-              </svg>
+              <AlignJustify/>
             </button>
           </div>
         </div>
 
         {/* Mobile nav links */}
         {isOpen && (
-          <div className="md:hidden mt-2 px-2 space-y-2">
+          <div className="md:hidden mt-2 px-2 space-y-2 mx-auto">
             <a href="/" className="block text-gray-300 hover:text-blue-400">
               Home
             </a>
@@ -97,6 +84,7 @@ const Landing = () => {
           </div>
         )}
       </header>
+      
       Ì{/* Hero */}
       <section
         id="top"
@@ -117,6 +105,7 @@ const Landing = () => {
           </a>
         </motion.div>
       </section>
+
       {/* Features */}
       <section id="features" className="py-20 px-6 bg-gray-800/50">
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
@@ -155,6 +144,7 @@ const Landing = () => {
           ))}
         </div>
       </section>
+
       {/* How It Works */}
       <section
         id="how-it-works"
@@ -183,6 +173,7 @@ const Landing = () => {
           ))}
         </div>
       </section>
+
       {/* FAQ Section */}
       <section id="faq" className="py-20 px-6 bg-gray-800">
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
@@ -220,6 +211,7 @@ const Landing = () => {
           ))}
         </div>
       </section>
+
       {/* Footer */}
       <footer className="py-8 bg-gray-900 text-center border-t border-blue-800/50">
         <div className="max-w-7xl mx-auto">

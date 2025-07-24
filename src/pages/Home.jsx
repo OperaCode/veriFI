@@ -28,14 +28,14 @@ const Home = () => {
       <header className="sticky top-0 z-50 bg-gray-900/80 backdrop-blur-md py-4 px-6 shadow-lg border-b border-blue-800">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
-            VeriFI
+            <span>🛡️</span> VeriFI
           </h1>
           <nav className="space-x-6">
             <a
               href="/"
               className="text-gray-300 hover:text-blue-400 transition-colors font-bold flex items-center gap-1"
             >
-                <LogOut/>
+                <LogOut size={18}/>
               Exit App
             </a>
             
@@ -79,7 +79,7 @@ const Home = () => {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8 }}
             // className="grid grid-cols-1 md:grid-cols-2 gap-2  "
-            className=""
+            className="md:flex gap-2"
           >
             {/* ETH Transactions */}
             <div className="bg-gray-900/50 p-4 rounded-lg m-auto shadow-md border border-blue-800/50">
