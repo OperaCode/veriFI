@@ -1,62 +1,160 @@
 import React from "react";
+import { motion } from "framer-motion";
 
 const Landing = () => {
+  const fadeInUp = {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.6 }
+  };
+
   return (
-    <div className="font-sans">
+    <div className="font-sans min-h-screen bg-gradient-to-b from-gray-900 to-blue-950 text-white">
+      {/* Header */}
+      <header className="sticky top-0 z-50 bg-gray-900/80 backdrop-blur-md py-4 px-6 shadow-lg border-b border-blue-800">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
+            VeriFI
+          </h1>
+          <nav className="space-x-6">
+            <a href="#top" className="text-gray-300 hover:text-blue-400 transition-colors">Home</a>
+            <a href="#features" className="text-gray-300 hover:text-blue-400 transition-colors">Features</a>
+            <a href="#how-it-works" className="text-gray-300 hover:text-blue-400 transition-colors">How It Works</a>
+            <a href="#faq" className="text-gray-300 hover:text-blue-400 transition-colors">FAQ</a>
+          </nav>
+        </div>
+      </header>
+
       {/* Hero */}
-      <section className="bg-gray-900 text-white py-20 text-center">
-        <h1 className="text-4xl font-bold mb-4">Who Paid Me + ENS Lookup</h1>
-        <p className="text-lg mb-6">
-          Instantly see who sent you ETH – with readable ENS names.
-        </p>
-        <a href="/home">
-          <button className="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded text-white font-semibold">
-            Check My Wallet
-          </button>
-        </a>
+      <section id="top" className="bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 py-24 text-center relative overflow-hidden">
+        <div className="absolute inset-0 opacity-20 pointer-events-none">
+          <div className="w-full h-full bg-[url('https://www.transparenttextures.com/patterns/blockchain.png')] animate-pulse"></div>
+        </div>
+        <motion.div {...fadeInUp} className="max-w-4xl mx-auto relative z-10">
+          <h1 className="text-5xl md:text-6xl font-extrabold mb-6 leading-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
+            Track Your ETH with VeriFI
+          </h1>
+          <p className="text-xl md:text-2xl mb-8 text-gray-300">
+            Resolve Ethereum transactions to ENS names in a decentralized, secure way.
+          </p>
+          <a href="/home">
+            <button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-8 py-4 rounded-lg text-white font-semibold text-lg shadow-lg transform hover:scale-105 transition-all duration-200">
+              Explore VeriFI
+            </button>
+          </a>
+        </motion.div>
       </section>
 
       {/* Features */}
-      <section className="py-16 px-6 bg-gray-50 text-center">
-        <h2 className="text-2xl font-bold mb-8">Features</h2>
-        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          <div>
-            <h3 className="text-xl font-semibold mb-2">View Transactions</h3>
-            <p>See all incoming ETH transactions to your address.</p>
-          </div>
-          <div>
-            <h3 className="text-xl font-semibold mb-2">ENS Lookup</h3>
-            <p>Resolves sender addresses to ENS names automatically.</p>
-          </div>
-          <div>
-            <h3 className="text-xl font-semibold mb-2">Fast & Secure</h3>
-            <p>
-              No wallet connection required. Uses public blockchain data only.
-            </p>
-          </div>
+      <section id="features" className="py-20 px-6 bg-gray-800/50">
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
+          Why VeriFI Stands Out
+        </h2>
+        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          {[
+            {
+              title: "Transaction Explorer",
+              desc: "View all incoming ETH transactions with real-time blockchain data.",
+              icon: "💸"
+            },
+            {
+              title: "ENS Resolver",
+              desc: "Automatically map sender addresses to human-readable ENS names.",
+              icon: "🌐"
+            },
+            {
+              title: "Decentralized & Secure",
+              desc: "No wallet connection. Powered by public blockchain data for trustless security.",
+              icon: "🔗"
+            }
+          ].map((feature, index) => (
+            <motion.div
+              key={index}
+              {...fadeInUp}
+              transition={{ delay: index * 0.2 }}
+              className="bg-gray-900/50 p-6 rounded-lg shadow-md hover:shadow-xl border border-blue-800/50 hover:border-blue-600 transition-all duration-300"
+            >
+              <div className="text-4xl mb-4 text-blue-400">{feature.icon}</div>
+              <h3 className="text-xl font-semibold mb-3 text-gray-200">{feature.title}</h3>
+              <p className="text-gray-400">{feature.desc}</p>
+            </motion.div>
+          ))}
         </div>
       </section>
 
       {/* How It Works */}
-      <section className="py-16 px-6 text-center">
-        <h2 className="text-2xl font-bold mb-8">How It Works</h2>
-        <ol className="list-decimal list-inside space-y-4 max-w-xl mx-auto text-left">
-          <li>Enter your Ethereum wallet address.</li>
-          <li>Click "Check".</li>
-          <li>View transactions with ENS names and details instantly.</li>
-        </ol>
+      <section id="how-it-works" className="py-20 px-6 bg-gradient-to-b from-gray-800 to-gray-900 text-center">
+        <h2 className="text-3xl md:text-4xl font-bold mb-12 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
+          How VeriFI Works
+        </h2>
+        <div className="max-w-3xl mx-auto space-y-8">
+          {[
+            "Input your Ethereum wallet address.",
+            "Click 'Check' to query the blockchain.",
+            "See transactions with ENS names instantly."
+          ].map((step, index) => (
+            <motion.div
+              key={index}
+              {...fadeInUp}
+              transition={{ delay: index * 0.2 }}
+              className="flex items-center space-x-4 text-left"
+            >
+              <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold">
+                {index + 1}
+              </div>
+              <p className="text-lg text-gray-300">{step}</p>
+            </motion.div>
+          ))}
+        </div>
       </section>
 
+      {/* FAQ Section */}
+      <section id="faq" className="py-20 px-6 bg-gray-800">
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
+          Frequently Asked Questions
+        </h2>
+        <div className="max-w-3xl mx-auto space-y-6">
+          {[
+            {
+              question: "Do I need to connect my wallet?",
+              answer: "No, VeriFI uses public blockchain data, ensuring no wallet connection is needed."
+            },
+            {
+              question: "What is ENS?",
+              answer: "Ethereum Name Service (ENS) maps Ethereum addresses to readable names."
+            },
+            {
+              question: "How secure is VeriFI?",
+              answer: "Completely secure. We only access public blockchain data and store no personal info."
+            }
+          ].map((faq, index) => (
+            <motion.div
+              key={index}
+              {...fadeInUp}
+              transition={{ delay: index * 0.2 }}
+              className="border-b border-blue-800/50 pb-4"
+            >
+              <h3 className="text-lg font-semibold text-gray-200">{faq.question}</h3>
+              <p className="text-gray-400 mt-2">{faq.answer}</p>
+            </motion.div>
+          ))}
+        </div>
+      </section>
 
       {/* Footer */}
-      <footer className="py-6 text-center bg-gray-900 text-white">
-        <p>
-          Built by{" "}
-          <a href="https://github.com/OperaCode" className="underline">
-            Opera
-          </a>{" "}
-          | Powered by ethers.js & Etherscan API
-        </p>
+      <footer className="py-8 bg-gray-900 text-center border-t border-blue-800/50">
+        <div className="max-w-7xl mx-auto">
+          <p className="text-gray-400">
+            Built by{" "}
+            <a href="https://github.com/OperaCode" className="underline hover:text-blue-400">
+              Opera
+            </a>{" "}
+            | Powered by ethers.js & Etherscan API
+          </p>
+          <p className="mt-4 text-sm text-gray-500">
+            © {new Date().getFullYear()} VeriFI. Decentralized & Transparent.
+          </p>
+        </div>
       </footer>
     </div>
   );
