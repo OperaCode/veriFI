@@ -1,14 +1,13 @@
 import React from "react";
-import { motion } from "framer-motion";
 import { Copy } from "lucide-react";
+import { toast } from "react-toastify";
 
-const TransactionItem = ({ tx, ensName }) => {
+const TransactionItem = ({ tx, ensName, date }) => {
   const ethValue = parseFloat(tx.value) / 10 ** 18;
-  const date = new Date(tx.timeStamp * 1000).toLocaleString();
 
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);
-    alert("Copied to clipboard!");
+    toast.info("Copied to clipboard!");
   };
 
   return (
@@ -32,8 +31,11 @@ const TransactionItem = ({ tx, ensName }) => {
           </button>
         </span>
       </td>
+
       <td className="py-3 px-4">{ethValue.toFixed(6)} ETH</td>
-      <td className="py-3 px-4">{date}</td>
+
+      <td className="py-3 px-4">{date || "Loading..."}</td>
+
       <td className="py-3 px-4">
         <a
           href={`https://etherscan.io/tx/${tx.hash}`}
@@ -44,7 +46,6 @@ const TransactionItem = ({ tx, ensName }) => {
           {tx.hash.slice(0, 6)}...{tx.hash.slice(-4)}
         </a>
       </td>
-      
     </>
   );
 };

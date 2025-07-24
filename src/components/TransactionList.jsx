@@ -9,6 +9,7 @@ const provider = new ethers.JsonRpcProvider(import.meta.env.VITE_RPC_URL);
 const TransactionList = ({ address }) => {
   const { transactions, loading } = useFetchTransactions(address);
   const [ensMap, setEnsMap] = useState({});
+  const [blockTimes, setBlockTimes] = useState({});
 
   const [currentPage, setCurrentPage] = useState(1);
   const perPage = 10;
@@ -20,10 +21,11 @@ const TransactionList = ({ address }) => {
     currentPage * perPage
   );
 
+  // ENS Resolver
   useEffect(() => {
     const resolveENS = async () => {
       const newEnsMap = {};
-      for (let tx of transactions) {
+      for (let tx of paginatedTxs) {
         const from = tx.from;
         if (!newEnsMap[from]) {
           try {
@@ -35,16 +37,38 @@ const TransactionList = ({ address }) => {
           }
         }
       }
-      setEnsMap(newEnsMap);
+      setEnsMap((prev) => ({ ...prev, ...newEnsMap }));
     };
 
-    if (transactions && transactions.length > 0) resolveENS();
-  }, [transactions]);
+    if (paginatedTxs && paginatedTxs.length > 0) resolveENS();
+  }, [paginatedTxs]);
+
+  // Block timestamp resolver
+  useEffect(() => {
+    const resolveBlockTimes = async () => {
+      const times = {};
+      for (let tx of paginatedTxs) {
+        const blockNum = parseInt(tx.blockNum, 16);
+        if (!blockTimes[blockNum]) {
+          try {
+            const block = await provider.getBlock(blockNum);
+            times[blockNum] = block.timestamp;
+          } catch (err) {
+            console.error(`Block lookup failed for ${blockNum}:`, err);
+            times[blockNum] = null;
+          }
+        }
+      }
+      setBlockTimes((prev) => ({ ...prev, ...times }));
+    };
+
+    if (paginatedTxs && paginatedTxs.length > 0) resolveBlockTimes();
+  }, [paginatedTxs]);
 
   const fadeInUp = {
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.6 }
+    transition: { duration: 0.6 },
   };
 
   const handlePrev = () => {
@@ -86,19 +110,31 @@ const TransactionList = ({ address }) => {
                 </tr>
               </thead>
               <tbody>
-                {paginatedTxs.map((tx, index) => (
-                  <motion.tr
-                    key={tx.hash || index}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                    className={`border-b border-blue-800/50 hover:bg-gray-800/50 transition-colors duration-200 ${
-                      index % 2 === 0 ? "bg-gray-900/30" : "bg-gray-900/10"
-                    }`}
-                  >
-                    <TransactionItem tx={tx} ensName={ensMap[tx.from]} />
-                  </motion.tr>
-                ))}
+                {paginatedTxs.map((tx, index) => {
+                  const blockNum = parseInt(tx.blockNum, 16);
+                  const timestamp = blockTimes[blockNum];
+                  const date = timestamp
+                    ? new Date(timestamp * 1000).toLocaleString()
+                    : "Loading...";
+
+                  return (
+                    <motion.tr
+                      key={tx.hash || index}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.05 }}
+                      className={`border-b border-blue-800/50 hover:bg-gray-800/50 transition-colors duration-200 ${
+                        index % 2 === 0 ? "bg-gray-900/30" : "bg-gray-900/10"
+                      }`}
+                    >
+                      <TransactionItem
+                        tx={tx}
+                        ensName={ensMap[tx.from]}
+                        date={date}
+                      />
+                    </motion.tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>

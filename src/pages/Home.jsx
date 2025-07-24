@@ -7,6 +7,13 @@ import { LogOut } from "lucide-react";
 
 const provider = new JsonRpcProvider(import.meta.env.VITE_RPC_URL);
 
+async function testENS() {
+  const ens = await provider.lookupAddress("0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045");
+  console.log(ens);
+}
+
+testENS();
+
 const Home = () => {
   const [address, setAddress] = useState("");
   const [submittedAddress, setSubmittedAddress] = useState("");

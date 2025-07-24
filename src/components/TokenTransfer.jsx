@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Copy } from "lucide-react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const TokenTransfers = ({ address }) => {
   const [transfers, setTransfers] = useState([]);
@@ -75,7 +76,7 @@ const TokenTransfers = ({ address }) => {
 
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);
-    alert("Copied to clipboard!");
+    toast.info("Copied to clipboard!");
   };
 
   const fadeInUp = {
