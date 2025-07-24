@@ -1,12 +1,66 @@
-# React + Vite
+🔎 VeriFi
+Your Ethereum Transaction Resolver
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+VeriFi is a simple dApp that lets you:
 
-Currently, two official plugins are available:
+✅ Enter any Ethereum wallet address
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+✅ View recent incoming transactions
 
-## Expanding the ESLint configuration
+✅ See token transfers (ERC20)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+✅ Resolve addresses to their ENS names seamlessly
+
+
+
+🛠️ Tech Stack
+React ⚛️
+
+Tailwind CSS 🌬️
+
+ethers.js
+
+Etherscan API
+
+Alchemy RPC (for ENS resolution)
+
+📸 Features
+Search for any Ethereum wallet address
+
+View:
+
+Sender address
+
+Amount in ETH
+
+Timestamp (human-readable)
+
+Transaction hash with Etherscan link
+
+ENS resolution for addresses with a registered ENS
+
+🔧 Setup
+Clone the repo
+
+
+git clone https://github.com/OperaCode/veriFI.git
+cd verifi
+Install dependencies
+
+
+npm install
+Create .env file
+
+
+VITE_ETHERSCAN_API_KEY
+VITE_RPC_URL
+Run the app
+
+
+
+⚠️ Notes
+ENS lookups require an Ethereum RPC provider that supports ENS resolution (e.g. Alchemy, Infura).
+
+Rate limits: Free Alchemy or Etherscan plans have request/compute limits. Optimize or upgrade for production use.
+
+
